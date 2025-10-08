@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-API_KEY="${ABUSEIPDB_KEY:-YOURABUSEIP_APIKEY}"
+API_KEY="YOURABUSEIP_APIKEY"
 SLEEP_SECONDS=1   # polite delay between requests
 
 query_ip() {
