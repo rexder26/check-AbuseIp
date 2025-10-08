@@ -54,10 +54,13 @@ The script displays formatted results in your terminal and also creates a file n
 ## 🧩 Notes
 
 - Requires `curl` and `jq` to be installed.
+  - To install it, use `sudo apt install curl jq` 
 - API free tier limits apply (see [AbuseIPDB API Docs](https://docs.abuseipdb.com/)).
 - You can easily modify the script to output JSON, CSV, or filter based on abuse score.
 - Example snippet for quick testing:
   ```bash
+  git clone 
+  cd check-AbuseIp && sudo mv check-abuseip /usr/bin 
   echo "8.8.8.8" | check-abuseip
   ```
 
