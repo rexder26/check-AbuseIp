@@ -5,11 +5,16 @@ It queries the [AbuseIPDB API](https://www.abuseipdb.com/) and saves summarized 
 
 ---
 
-## ⚙️ Setup
+## ⚙️ Installation & Setup
 
 1. Create an account on [abuseipdb.com](https://www.abuseipdb.com/).  
 2. Obtain your personal API key.  
-3. Add it to the script under the variable `API_KEY`.
+3. Requires `curl` and `jq` to be installed.
+  - To install it, use `sudo apt install curl jq` 
+4. Clone the Repo && Add Your API Key to the script under the variable `API_KEY`.
+  ```bash
+  git clone https://github.com/rexder26/check-AbuseIp.git
+  ```
 
 ---
 
@@ -23,12 +28,14 @@ check-abuseip 1.2.3.4
 ### Bulk from file
 You can move the script to your system path to use it globally:
 ```bash
-sudo mv check-abuseip /usr/bin/
+cd check-AbuseIp && sudo mv check-abuseip /usr/bin
+chmod +x /usr/bin/check-abuseip
 ```
 
 Then pipe IPs via standard input:
 ```bash
 cat suspicious_ips.txt | check-abuseip
+echo "8.8.8.8" | check-abuseip
 ```
 
 ---
@@ -48,21 +55,6 @@ The script displays formatted results in your terminal and also creates a file n
 65.111.13.239  {Report: 2, Abuse: 14, Country: US, LastReported: 2025-10-03T19:13:31+00:00}
 65.111.20.48   {Report: 0, Abuse: 0, Country: US, LastReported: 2025-01-01T05:04:04+00:00}
 ```
-
----
-
-## 🧩 Notes
-
-- Requires `curl` and `jq` to be installed.
-  - To install it, use `sudo apt install curl jq` 
-- API free tier limits apply (see [AbuseIPDB API Docs](https://docs.abuseipdb.com/)).
-- You can easily modify the script to output JSON, CSV, or filter based on abuse score.
-- Example snippet for quick testing:
-  ```bash
-  git clone 
-  cd check-AbuseIp && sudo mv check-abuseip /usr/bin 
-  echo "8.8.8.8" | check-abuseip
-  ```
 
 ---
 
