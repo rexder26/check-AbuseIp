@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+
+API_KEY="${ABUSEIPDB_KEY:-YOURABUSEIP_APIKEY}"
+SLEEP_SECONDS=1   # polite delay between requests
+
+query_ip() {
+  local ip="$1"
+  curl -sG "https://api.abuseipdb.com/api/v2/check" \
+    --data-urlencode "ipAddress=${ip}" \
+    -d maxAgeInDays=90 \
+    -d verbose \
+    -H "Key: ${API_KEY}" \
+    -H "Accept: application/json" \
+  | jq -r '.data | "\(.ipAddress) {Report: \(.totalReports), Abuse: \(.abuseConfidenceScore) Country: \(.countryCode) LastReported: \(.lastReportedAt // "-")}"' | tee abuse-ip-results.txt
+}
+
+# If args provided -> iterate them
+if [ "$#" -gt 0 ]; then
+  for ip in "$@"; do
+    query_ip "$ip"
+    sleep "$SLEEP_SECONDS"
+  done
+  exit 0
+fi
+
+# Otherwise read from stdin
+if [ ! -t 0 ]; then
+  while IFS= read -r ip; do
+    [ -z "$ip" ] && continue
+    query_ip "$ip"
+    sleep "$SLEEP_SECONDS"
+  done
+  exit 0
+fi
+
+# Interactive fallback
+read -rp "IP to query: " ip
+if [ -n "$ip" ]; then
+  query_ip "$ip"
+fi
